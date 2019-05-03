@@ -7,7 +7,7 @@ local message = require('keyboard.status-message')
 -- Super Duper Mode.
 local MAX_TIME_BETWEEN_SIMULTANEOUS_KEY_PRESSES = 0.04 -- 40 milliseconds
 
-local superDuperMode = {
+superDuperMode = {
   statusMessage = message.new('(S)uper (D)uper Mode'),
   enter = function(self)
     if not self.active then self.statusMessage:show() end
@@ -25,66 +25,66 @@ local superDuperMode = {
 }
 superDuperMode:reset()
 
-superDuperModeActivationListener = eventtap.new({ eventTypes.keyDown }, function(event)
-  -- If 's' or 'd' is pressed in conjuction with any modifier keys
-  -- (e.g., command+s), then we're not activating Super Duper Mode.
-  if not (next(event:getFlags()) == nil) then
-    return false
-  end
-
-  local characters = event:getCharacters()
-
-  if characters == 's' then
-    if superDuperMode.ignoreNextS then
-      superDuperMode.ignoreNextS = false
-      return false
-    end
-    -- Temporarily suppress this 's' keystroke. At this point, we're not sure if
-    -- the user intends to type an 's', or if the user is attempting to activate
-    -- Super Duper Mode. If 'd' is pressed by the time the following function
-    -- executes, then activate Super Duper Mode. Otherwise, trigger an ordinary
-    -- 's' keystroke.
-    superDuperMode.isSDown = true
-    hs.timer.doAfter(MAX_TIME_BETWEEN_SIMULTANEOUS_KEY_PRESSES, function()
-      if superDuperMode.isDDown then
-        superDuperMode:enter()
-      else
-        superDuperMode.ignoreNextS = true
-        keyUpDown({}, 's')
-        return false
-      end
-    end)
-    return true
-  elseif characters == 'd' then
-    if superDuperMode.ignoreNextD then
-      superDuperMode.ignoreNextD = false
-      return false
-    end
-    -- Temporarily suppress this 'd' keystroke. At this point, we're not sure if
-    -- the user intends to type a 'd', or if the user is attempting to activate
-    -- Super Duper Mode. If 's' is pressed by the time the following function
-    -- executes, then activate Super Duper Mode. Otherwise, trigger an ordinary
-    -- 'd' keystroke.
-    superDuperMode.isDDown = true
-    hs.timer.doAfter(MAX_TIME_BETWEEN_SIMULTANEOUS_KEY_PRESSES, function()
-      if superDuperMode.isSDown then
-        superDuperMode:enter()
-      else
-        superDuperMode.ignoreNextD = true
-        keyUpDown({}, 'd')
-        return false
-      end
-    end)
-    return true
-  end
-end):start()
-
-superDuperModeDeactivationListener = eventtap.new({ eventTypes.keyUp }, function(event)
-  local characters = event:getCharacters()
-  if characters == 's' or characters == 'd' then
-    superDuperMode:reset()
-  end
-end):start()
+-- superDuperModeActivationListener = eventtap.new({ eventTypes.keyDown }, function(event)
+--   -- If 's' or 'd' is pressed in conjuction with any modifier keys
+--   -- (e.g., command+s), then we're not activating Super Duper Mode.
+--   if not (next(event:getFlags()) == nil) then
+--     return false
+--   end
+--
+--   local characters = event:getCharacters()
+--
+--   if characters == 's' then
+--     if superDuperMode.ignoreNextS then
+--       superDuperMode.ignoreNextS = false
+--       return false
+--     end
+--     -- Temporarily suppress this 's' keystroke. At this point, we're not sure if
+--     -- the user intends to type an 's', or if the user is attempting to activate
+--     -- Super Duper Mode. If 'd' is pressed by the time the following function
+--     -- executes, then activate Super Duper Mode. Otherwise, trigger an ordinary
+--     -- 's' keystroke.
+--     superDuperMode.isSDown = true
+--     hs.timer.doAfter(MAX_TIME_BETWEEN_SIMULTANEOUS_KEY_PRESSES, function()
+--       if superDuperMode.isDDown then
+--         superDuperMode:enter()
+--       else
+--         superDuperMode.ignoreNextS = true
+--         keyUpDown({}, 's')
+--         return false
+--       end
+--     end)
+--     return true
+--   elseif characters == 'd' then
+--     if superDuperMode.ignoreNextD then
+--       superDuperMode.ignoreNextD = false
+--       return false
+--     end
+--     -- Temporarily suppress this 'd' keystroke. At this point, we're not sure if
+--     -- the user intends to type a 'd', or if the user is attempting to activate
+--     -- Super Duper Mode. If 's' is pressed by the time the following function
+--     -- executes, then activate Super Duper Mode. Otherwise, trigger an ordinary
+--     -- 'd' keystroke.
+--     superDuperMode.isDDown = true
+--     hs.timer.doAfter(MAX_TIME_BETWEEN_SIMULTANEOUS_KEY_PRESSES, function()
+--       if superDuperMode.isSDown then
+--         superDuperMode:enter()
+--       else
+--         superDuperMode.ignoreNextD = true
+--         keyUpDown({}, 'd')
+--         return false
+--       end
+--     end)
+--     return true
+--   end
+-- end):start()
+--
+-- superDuperModeDeactivationListener = eventtap.new({ eventTypes.keyUp }, function(event)
+--   local characters = event:getCharacters()
+--   if characters == 's' or characters == 'd' then
+--     superDuperMode:reset()
+--   end
+-- end):start()
 
 --------------------------------------------------------------------------------
 -- Watch for key down/up events that represent modifiers in Super Duper Mode
@@ -168,3 +168,5 @@ superDuperModeTabNavKeyListener = eventtap.new({ eventTypes.keyDown }, function(
     return true
   end
 end):start()
+
+return superDuperMode

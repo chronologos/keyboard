@@ -14,6 +14,40 @@
                     "basic.to_if_held_down_threshold_milliseconds": 500
                 },
                 "rules": [
+                  {
+                        "manipulators": [
+                            {
+                                "description": "(S)uper (D)uper mode trigger",
+                                "from": {
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "s"
+                                        },
+                                        {
+                                            "key_code": "d"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "to_after_key_up": [
+                                            {
+                                                "shell_command": "/usr/local/bin/hs -c 'superDuperMode:reset()'"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "parameters": {
+                                    "basic.simultaneous_threshold_milliseconds": 30
+                                },
+                                "to": [
+                                    {
+                                        "repeat": false,
+                                        "shell_command": "/usr/local/bin/hs -c 'superDuperMode:enter()'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
                     {
                         "manipulators": [
                             {
