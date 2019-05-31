@@ -1,7 +1,7 @@
 {
     "global": {
         "check_for_updates_on_startup": true,
-        "show_in_menu_bar": false,
+        "show_in_menu_bar": true,
         "show_profile_name_in_menu_bar": false
     },
     "profiles": [
@@ -11,10 +11,11 @@
                     "basic.simultaneous_threshold_milliseconds": 50,
                     "basic.to_delayed_action_delay_milliseconds": 500,
                     "basic.to_if_alone_timeout_milliseconds": 1000,
-                    "basic.to_if_held_down_threshold_milliseconds": 500
+                    "basic.to_if_held_down_threshold_milliseconds": 500,
+                    "mouse_motion_to_scroll.speed": 100
                 },
                 "rules": [
-                  {
+                    {
                         "manipulators": [
                             {
                                 "description": "(S)uper (D)uper mode trigger",
@@ -77,6 +78,14 @@
                     {
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^net\\.shinyfrog\\.bear$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
                                 "description": "[Bear] Use control+d to toggle todo state",
                                 "from": {
                                     "key_code": "d",
@@ -95,14 +104,6 @@
                                         ]
                                     }
                                 ],
-                                "conditions": [
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^net\\.shinyfrog\\.bear$"
-                                        ]
-                                    }
-                                ],
                                 "type": "basic"
                             }
                         ]
@@ -111,7 +112,15 @@
                         "description": "[Bear] Use control+command+down/up to move current line(s) down/up",
                         "manipulators": [
                             {
-                              "description": "[Bear] Use control+command+down to move current line(s) down",
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^net\\.shinyfrog\\.bear$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "[Bear] Use control+command+down to move current line(s) down",
                                 "from": {
                                     "key_code": "down_arrow",
                                     "modifiers": {
@@ -130,18 +139,18 @@
                                         ]
                                     }
                                 ],
-                                "conditions": [
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^net\\.shinyfrog\\.bear$"
-                                        ]
-                                    }
-                                ],
                                 "type": "basic"
                             },
                             {
-                              "description": "[Bear] Use control+command+down to move current line(s) up",
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^net\\.shinyfrog\\.bear$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "[Bear] Use control+command+down to move current line(s) up",
                                 "from": {
                                     "key_code": "up_arrow",
                                     "modifiers": {
@@ -157,14 +166,6 @@
                                         "modifiers": [
                                             "left_command",
                                             "left_option"
-                                        ]
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "frontmost_application_if",
-                                        "bundle_identifiers": [
-                                            "^net\\.shinyfrog\\.bear$"
                                         ]
                                     }
                                 ],
@@ -353,7 +354,9 @@
             ],
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 0,
-                "keyboard_type": "ansi"
+                "country_code": 0,
+                "keyboard_type": "ansi",
+                "mouse_key_xy_scale": 100
             }
         }
     ]
